@@ -1,0 +1,5 @@
+01 C centername totalvoters
+02 N centername partyname
+03 V centername partyname
+04 R
+05 S

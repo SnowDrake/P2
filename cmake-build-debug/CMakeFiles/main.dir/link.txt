@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/main.dir/main.c.o CMakeFiles/main.dir/party_list.c.o CMakeFiles/main.dir/center_list.c.o  -o ../bin/main 

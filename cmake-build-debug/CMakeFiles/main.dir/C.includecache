@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/center_list.c
+types.h
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/types.h
+party_list.h
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/party_list.h
+center_list.h
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/center_list.h
+
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/center_list.h
+types.h
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/types.h
+
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/main.c
+stdio.h
+-
+types.h
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/types.h
+center_list.h
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/center_list.h
+
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/party_list.c
+party_list.h
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/party_list.h
+
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/party_list.h
+types.h
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/types.h
+
+/home/david/FIC/Primer Curso/Q2/Programación II/Practicas/P2/P2/types.h
+
