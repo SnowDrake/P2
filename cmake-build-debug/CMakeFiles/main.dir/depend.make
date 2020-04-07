@@ -8,6 +8,7 @@ CMakeFiles/main.dir/center_list.c.o: ../types.h
 
 CMakeFiles/main.dir/main.c.o: ../center_list.h
 CMakeFiles/main.dir/main.c.o: ../main.c
+CMakeFiles/main.dir/main.c.o: ../party_list.h
 CMakeFiles/main.dir/main.c.o: ../types.h
 
 CMakeFiles/main.dir/party_list.c.o: ../party_list.c
