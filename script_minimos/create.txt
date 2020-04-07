@@ -1,0 +1,6 @@
+01 C Center2 10
+02 S
+03 C Center1 5
+04 S
+05 C Center3 5
+06 S

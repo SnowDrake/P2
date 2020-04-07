@@ -1,0 +1,39 @@
+********************
+01 C: center Center2 totalvoters 10
+
+* Create: center Center2 totalvoters 10
+********************
+02 S
+
+Center Center2
+Null votes 0
+Participation: 0 votes from 10 voters (0.00%)
+********************
+03 C: center Center1 totalvoters 5
+
+* Create: center Center1 totalvoters 5
+********************
+04 S
+
+Center Center1
+Null votes 0
+Participation: 0 votes from 5 voters (0.00%)
+Center Center2
+Null votes 0
+Participation: 0 votes from 10 voters (0.00%)
+********************
+05 C: center Center3 totalvoters 5
+
+* Create: center Center3 totalvoters 5
+********************
+06 S
+
+Center Center1
+Null votes 0
+Participation: 0 votes from 5 voters (0.00%)
+Center Center2
+Null votes 0
+Participation: 0 votes from 10 voters (0.00%)
+Center Center3
+Null votes 0
+Participation: 0 votes from 5 voters (0.00%)

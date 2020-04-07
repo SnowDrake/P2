@@ -12,7 +12,7 @@ set(CMAKE_C_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_C
-  "INPUT_FILE=\"new.txt\""
+  "INPUT_FILE=\"voteP2.txt\""
   )
 
 # The include file search paths:
