@@ -1,9 +1,9 @@
 /*
  * TITLE: PROGRAMMING II LABS
  * SUBTITLE: Practical 2
- * AUTHOR 1: ***************************** LOGIN 1: **********
- * AUTHOR 2: ***************************** LOGIN 2: **********
- * GROUP: *.*
+ * AUTHOR 1: Picado Liñares, David LOGIN 1: david.picado
+ * AUTHOR 2: Otero Agraso, Samuel LOGIN 2: s.agraso
+ * GROUP: 1.5
  * DATE: ** / ** / **
  */
 
@@ -27,7 +27,7 @@ void createCenter(tListC *list, tCenterName name, char param[NAME_LENGTH_LIMIT+1
     newCenter.validVotes = newCenter.nullVotes = 0;
 
     bool check;
-    if (findItemC(name, *list) == NULLC) {
+    if (findItemC(name, *list) == NULLC) { // Centro desconocido en la lista
         check = insertItemC(newCenter, list);
         createEmptyList(&list->data[findItemC(name, *list)].partyList); // Se crea la lista de partidos de determinada lista
         if (check == true) {
@@ -37,7 +37,7 @@ void createCenter(tListC *list, tCenterName name, char param[NAME_LENGTH_LIMIT+1
             printf("+ Error: Create not possible\n");
         }
     }
-    else {
+    else { // El centro ya está en la lista
         printf("+ Error: Create not possible\n");
     }
 
@@ -54,7 +54,7 @@ void newParty(tListC *list, tCenterName center, tPartyName party) {
         printf("+ Error: New not possible\n");
     }
     else { // El centro si está en la lista
-        if (findItem(party, list->data[p].partyList) == LNULL) { // El partido no está en la lista del centro electoral
+        if (findItem(party, getItemC(p, *list).partyList) == LNULL) { // El partido no está en la lista del centro electoral
             check = insertItem(Party, &list->data[p].partyList);
             if (check == true) {
                 printf("* New: center %s party %s\n", getItemC(findItemC(center, *list), *list).centerName, party);
@@ -71,30 +71,32 @@ void newParty(tListC *list, tCenterName center, tPartyName party) {
 void voteParty(tListC *list, tCenterName center, tPartyName party) {
     tPosC p;
     tPosL r;
+    tItemC mainItem; // Item para manejar los campos de la lista
     int Null = 0;
     int Valid = 0;
     int PartyVotes = 0;
     p = findItemC(center, *list);
+    mainItem = getItemC(p, *list);
 
     if (p == NULLC) {
-        printf("+ Error: Vote not possible\n");
+        printf("+ Error: Vote not possible\n"); // El centro no se encuentra en la lista
     }
     else {
-        if (findItem(party, list->data[p].partyList) == LNULL) { // El partido no se encuentra en la lista de centros electorales
-            Null = getItemC(p, *list).nullVotes;
+        if (findItem(party, mainItem.partyList) == LNULL) { // El partido no se encuentra en la lista de centros electorales
+            Null = mainItem.nullVotes;
             Null++;
             updateNullVotes(Null, p, list);
-            printf("+ Error: Vote not possible. Party %s not found in center %s. NULLVOTE\n", party, getItemC(p, *list).centerName);
+            printf("+ Error: Vote not possible. Party %s not found in center %s. NULLVOTE\n", party, mainItem.centerName);
         }
         else { // El partido si se encuentra en la lista
-            Valid = getItemC(p, *list).validVotes;
+            Valid = mainItem.validVotes;
             Valid++;
             updateValidVotesC(Valid, p, list);
-            r = findItem(party, list->data[p].partyList);
-            PartyVotes = getItem(r, list->data[p].partyList).numVotes;
+            r = findItem(party, mainItem.partyList);
+            PartyVotes = getItem(r, mainItem.partyList).numVotes;
             PartyVotes++;
-            updateVotes(PartyVotes, r, &list->data[p].partyList);
-            printf("* Vote: center %s party %s numvotes %d\n", getItemC(p, *list).centerName, party, getItem(r, list->data[p].partyList).numVotes);
+            updateVotes(PartyVotes, r, &mainItem.partyList);
+            printf("* Vote: center %s party %s numvotes %d\n", mainItem.centerName, party, getItem(r, mainItem.partyList).numVotes);
         }
     }
 }
@@ -109,17 +111,17 @@ void print_list_Stats(tListC *list) {
         while (pos != NULLC) {
             item = getItemC(pos, *list);
             printf("Center %s\n", item.centerName);
-            if (!isEmptyList(list->data[pos].partyList)) {
-                posL = first(list->data[pos].partyList);
+            if (!isEmptyList(item.partyList)) {
+                posL = first(item.partyList);
                 while (posL != LNULL) {
-                    itemL = getItem(posL, list->data[pos].partyList);
-                    if (list->data[pos].validVotes == 0) {
+                    itemL = getItem(posL, item.partyList);
+                    if (item.validVotes == 0) {
                         printf("Party %s numvotes %d (0.00%%)\n", itemL.partyName, itemL.numVotes);
                     }
                     else {
                         printf("Party %s numvotes %d (%.2f%%)\n", itemL.partyName, itemL.numVotes, ((float)itemL.numVotes/item.validVotes)*100);
                     }
-                    posL = next(posL, list->data[pos].partyList);
+                    posL = next(posL, item.partyList);
                 }
             }
             printf("Null votes %d\n", item.nullVotes);
@@ -150,7 +152,7 @@ void removeCenter(tListC *list) {
     if (!isEmptyListC(LCopia)) { // Recorremos la copia
         pos = firstC(LCopia);
         while (pos != NULLC) {
-            if (LCopia.data[pos].validVotes != 0) { // Los centros que han de quedarse en la lista *L
+            if (getItemC(pos, LCopia).validVotes != 0) { // Los centros que han de quedarse en la lista *L
                 strcpy(permanent.centerName, getItemC(pos, LCopia).centerName);
                 copyList(getItemC(pos, LCopia).partyList, &permanent.partyList);
                 permanent.validVotes = getItemC(pos, LCopia).validVotes;
@@ -175,7 +177,6 @@ void removeCenter(tListC *list) {
 
 void processCommand(char commandNumber[CODE_LENGTH+1], char command, char param1[NAME_LENGTH_LIMIT+1], char param2[NAME_LENGTH_LIMIT+1], tListC *L) {
 
-    //printf("Read from input file: %s %c %s %s\n", commandNumber, command, param1, param2);
 
     switch(command) {
         case 'C': {
@@ -199,7 +200,7 @@ void processCommand(char commandNumber[CODE_LENGTH+1], char command, char param1
             voteParty(L, param1, param2);
             break;
         }
-        case 'R': { // Terminado al 50%, muestra los partidos a remover pero hay que arreglar la eliminación
+        case 'R': {
             printf("********************\n");
             printf("%s %c\n", commandNumber, command);
             printf("\n");
@@ -215,6 +216,7 @@ void processCommand(char commandNumber[CODE_LENGTH+1], char command, char param1
         }
 
         default: {
+            printf("+ Fatal error: Command not found\n");
             break;
         }
     }

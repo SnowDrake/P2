@@ -1,9 +1,9 @@
 /*
  * TITLE: PROGRAMMING II LABS
  * SUBTITLE: Practical 2
- * AUTHOR 1: ***************************** LOGIN 1: **********
- * AUTHOR 2: ***************************** LOGIN 2: **********
- * GROUP: *.*
+ * AUTHOR 1: Picado Liñares, David LOGIN 1: david.picado
+ * AUTHOR 2: Otero Agraso, Samuel LOGIN 2: s.agraso
+ * GROUP: 1.5
  * DATE: ** / ** / **
  */
 
@@ -86,7 +86,7 @@ void deleteList(tList* L);
  * Salida: La lista vacía
  * Precondición: Lista inicializada
 */
-tPosL findItem(const tPartyName name, tList L);
+tPosL findItem(tPartyName name, tList L);
 /*
  * Objetivo: Devuelve la posición del primer elemento de la lista cuyo nombre de partido sea igual al indicado
  * Entrada:

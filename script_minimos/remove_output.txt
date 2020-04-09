@@ -59,6 +59,7 @@ Participation: 0 votes from 10 voters (0.00%)
 ********************
 13 R
 
+* Remove: center center2
 ********************
 14 S
 
@@ -68,8 +69,3 @@ Party CC numvotes 1 (25.00%)
 Party DD numvotes 0 (0.00%)
 Null votes 0
 Participation: 4 votes from 10 voters (40.00%)
-Center center2
-Party CC numvotes 0 (0.00%)
-Party DD numvotes 0 (0.00%)
-Null votes 0
-Participation: 0 votes from 10 voters (0.00%)

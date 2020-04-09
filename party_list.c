@@ -1,9 +1,9 @@
 /*
  * TITLE: PROGRAMMING II LABS
  * SUBTITLE: Practical 2
- * AUTHOR 1: ***************************** LOGIN 1: **********
- * AUTHOR 2: ***************************** LOGIN 2: **********
- * GROUP: *.*
+ * AUTHOR 1: Picado Liñares, David LOGIN 1: david.picado
+ * AUTHOR 2: Otero Agraso, Samuel LOGIN 2: s.agraso
+ * GROUP: 1.5
  * DATE: ** / ** / **
  */
 
@@ -114,7 +114,7 @@ void deleteList(tList* L) {
         free(p); // Liberamos p para cada una de las posiciones de la lista
     }
 }
-tPosL findItem(const tPartyName name, tList L) {
+tPosL findItem(tPartyName name, tList L) {
     tPosL p;
     p = L;
     while ((p != LNULL) && (strcmp(p->data.partyName, name) != 0)) {

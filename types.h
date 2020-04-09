@@ -1,3 +1,12 @@
+/*
+ * TITLE: PROGRAMMING II LABS
+ * SUBTITLE: Practical 2
+ * AUTHOR 1: Picado Liñares, David LOGIN 1: david.picado
+ * AUTHOR 2: Otero Agraso, Samuel LOGIN 2: s.agraso
+ * GROUP: 1.5
+ * DATE: ** / ** / **
+ */
+
 #ifndef TYPES_H
 #define TYPES_H
 

@@ -1,9 +1,9 @@
 /*
  * TITLE: PROGRAMMING II LABS
  * SUBTITLE: Practical 2
- * AUTHOR 1: ***************************** LOGIN 1: **********
- * AUTHOR 2: ***************************** LOGIN 2: **********
- * GROUP: *.*
+ * AUTHOR 1: Picado Liñares, David LOGIN 1: david.picado
+ * AUTHOR 2: Otero Agraso, Samuel LOGIN 2: s.agraso
+ * GROUP: 1.5
  * DATE: ** / ** / **
  */
 
@@ -109,6 +109,9 @@ bool copyListC(tListC L1, tListC* L2) {
     }
     L2->lastPos = L1.lastPos;
     return true;
+}
+void updateListC(tList P, tPosC p, tListC* L) {
+    L->data[p].partyList = P;
 }
 void deleteListC(tListC* L) {
     while (L->lastPos != NULLC) {
