@@ -26,10 +26,15 @@ void createCenter(tListC *list, tCenterName name, char param[NAME_LENGTH_LIMIT+1
     strcpy(newCenter.centerName, name);
     newCenter.validVotes = newCenter.nullVotes = 0;
 
+    tItemC item; // Variable auxiliar que nos permitirá manejar con los campos de tItemC
+
     bool check;
+
     if (findItemC(name, *list) == NULLC) { // Centro desconocido en la lista
-        check = insertItemC(newCenter, list);
-        createEmptyList(&list->data[findItemC(name, *list)].partyList); // Se crea la lista de partidos de determinada lista
+        check = insertItemC(newCenter, list); // Comprobamos si se ja insertado bien
+        item = getItemC(findItemC(name, *list), *list); // Obtendremos el valor del item correspondiente a ese centro
+        createEmptyList(&item.partyList); // Creamos la lista de partidos en el item
+        updateListC(item.partyList, findItemC(name, *list), list); // Modificamos la lista principal añadiendo la lista de partidos del item
         if (check == true) {
             printf("* Create: center %s totalvoters %s\n", getItemC(findItemC(name, *list), *list).centerName, param);
         }
@@ -47,23 +52,28 @@ void newParty(tListC *list, tCenterName center, tPartyName party) {
     Party.numVotes = 0;
     strcpy(Party.partyName, party);
 
+    tItemC item;
+
     bool check;
+
     tPosC p;
     p = findItemC(center, *list);
+    item = getItemC(p, *list);
     if (p == NULLC) { // Centro electoral no creado en la lista
         printf("+ Error: New not possible\n");
     }
     else { // El centro si está en la lista
-        if (findItem(party, getItemC(p, *list).partyList) == LNULL) { // El partido no está en la lista del centro electoral
-            check = insertItem(Party, &list->data[p].partyList);
+        if (findItem(party, item.partyList) == LNULL) { // El partido no está en la lista del centro electoral
+            check = insertItem(Party, &item.partyList); // Comprobamos si la inserción ha sido satisfactoria
+            updateListC(item.partyList, p, list); // Modificamos la lista principal añadiendo la lista de partidos del item
             if (check == true) {
-                printf("* New: center %s party %s\n", getItemC(findItemC(center, *list), *list).centerName, party);
+                printf("* New: center %s party %s\n", item.centerName, party);
             }
             else {
                 printf("+ Error: New not possible\n");
             }
         }
-        else {
+        else { // Ya tenemos el partido en la lista
             printf("+ Error: New not possible\n");
         }
     }
