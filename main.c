@@ -67,7 +67,7 @@ void newParty(tListC *list, tCenterName center, tPartyName party) {
             check = insertItem(Party, &item.partyList); // Comprobamos si la inserción ha sido satisfactoria
             updateListC(item.partyList, p, list); // Modificamos la lista principal añadiendo la lista de partidos del item
             if (check == true) {
-                printf("* New: center %s party %s\n", item.centerName, party);
+                printf("* New: center %s party %s\n", item.centerName, getItem(findItem(party, item.partyList), getItemC(p, *list).partyList).partyName);
             }
             else {
                 printf("+ Error: New not possible\n");
@@ -93,19 +93,23 @@ void voteParty(tListC *list, tCenterName center, tPartyName party) {
     }
     else {
         if (findItem(party, mainItem.partyList) == LNULL) { // El partido no se encuentra en la lista de centros electorales
-            Null = mainItem.nullVotes;
-            Null++;
-            updateNullVotes(Null, p, list);
+            if (mainItem.validVotes + mainItem.nullVotes < mainItem.totalVoters) {
+                Null = mainItem.nullVotes;
+                Null++;
+                updateNullVotes(Null, p, list);
+            }
             printf("+ Error: Vote not possible. Party %s not found in center %s. NULLVOTE\n", party, mainItem.centerName);
         }
         else { // El partido si se encuentra en la lista
-            Valid = mainItem.validVotes;
-            Valid++;
-            updateValidVotesC(Valid, p, list);
             r = findItem(party, mainItem.partyList);
-            PartyVotes = getItem(r, mainItem.partyList).numVotes;
-            PartyVotes++;
-            updateVotes(PartyVotes, r, &mainItem.partyList);
+            if (mainItem.validVotes + mainItem.nullVotes < mainItem.totalVoters) {
+                Valid = mainItem.validVotes;
+                Valid++;
+                updateValidVotesC(Valid, p, list);
+                PartyVotes = getItem(r, mainItem.partyList).numVotes;
+                PartyVotes++;
+                updateVotes(PartyVotes, r, &mainItem.partyList);
+            }
             printf("* Vote: center %s party %s numvotes %d\n", mainItem.centerName, party, getItem(r, mainItem.partyList).numVotes);
         }
     }
@@ -135,7 +139,7 @@ void print_list_Stats(tListC *list) {
                 }
             }
             printf("Null votes %d\n", item.nullVotes);
-            if (item.validVotes == 0) {
+            if (item.totalVoters == 0) {
                 printf("Participation: %d votes from %d voters (0.00%%)\n", item.validVotes + item.nullVotes, item.totalVoters);
             }
             else {

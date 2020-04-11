@@ -114,13 +114,44 @@ void deleteList(tList* L) {
         free(p); // Liberamos p para cada una de las posiciones de la lista
     }
 }
-tPosL findItem(tPartyName name, tList L) {
-    tPosL p;
-    p = L;
-    while ((p != LNULL) && (strcmp(p->data.partyName, name) != 0)) {
-        p = p->next;
+tPosL findMiddle(tPosL Inicio, tPosL Final) { // Función exclusiva para encontrar la mitad de la lista
+    tPosL izq;
+    tPosL der;
+    if (Inicio == LNULL) { // Si la lista está vacía
+        return LNULL;
     }
-    return p;
+    izq = Inicio;
+    der = Inicio->next;
+
+    while (der != Final) {
+        der = der->next;
+        if (der != Final) {
+            izq = izq->next;
+            der = der->next;
+        }
+    }
+    return izq;
+}
+tPosL findItem(tPartyName name, tList L) { // Vamos a usar la búsqueda binaria para encontrar la posición
+    tPosL inicio = first(L); // Inicio de la lista
+    tPosL final = LNULL; // Final de la lista, es decir el NULL
+    tPosL medio; // Variable para declarar la mitad de la lista
+    do {
+        medio = findMiddle(inicio, final); // Encontramos la mitad
+        if (medio == LNULL) {
+            return LNULL; // De no existir, la lista está vacía
+        }
+        if (strcmp(medio->data.partyName, name) == 0) { // Encontramos la posición
+            return medio;
+        }
+        else if (strcmp(medio->data.partyName, name) < 0) {
+            inicio = medio->next;
+        }
+        else {
+            final = medio;
+        }
+    } while (final == LNULL || final != inicio);
+    return LNULL; // Ya no pudimos encontrar la posición
 }
 bool isEmptyList(tList L) {
     if (L == LNULL) {
