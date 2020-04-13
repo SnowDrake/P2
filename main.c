@@ -31,7 +31,7 @@ void createCenter(tListC *list, tCenterName name, char param[NAME_LENGTH_LIMIT+1
     bool check;
 
     if (findItemC(name, *list) == NULLC) { // Centro desconocido en la lista
-        check = insertItemC(newCenter, list); // Comprobamos si se ja insertado bien
+        check = insertItemC(newCenter, list); // Comprobamos si se ha insertado bien
         item = getItemC(findItemC(name, *list), *list); // Obtendremos el valor del item correspondiente a ese centro
         createEmptyList(&item.partyList); // Creamos la lista de partidos en el item
         updateListC(item.partyList, findItemC(name, *list), list); // Modificamos la lista principal añadiendo la lista de partidos del item
