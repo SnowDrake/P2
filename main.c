@@ -21,6 +21,7 @@ int devolverParam(char param[NAME_LENGTH_LIMIT+1]) {  // Función usada para con
 }
 
 void createCenter(tListC *list, tCenterName name, char param[NAME_LENGTH_LIMIT+1]) {
+    // Declaración del nuevo ítem a añadir a la lista
     tItemC newCenter;
     newCenter.totalVoters = devolverParam(param);
     strcpy(newCenter.centerName, name);
@@ -48,17 +49,19 @@ void createCenter(tListC *list, tCenterName name, char param[NAME_LENGTH_LIMIT+1
 
 }
 void newParty(tListC *list, tCenterName center, tPartyName party) {
+    // Declaración del ítem del nuevo partido a añadir
     tItemL Party;
     Party.numVotes = 0;
     strcpy(Party.partyName, party);
 
-    tItemC item;
+    tItemC item; // Item auxiliar para manejar los centros de la lista
 
-    bool check;
+    bool check; // Variable booleana para comprobar la función de insertItem
 
-    tPosC p;
+    tPosC p; // Posición del centro en la lista
     p = findItemC(center, *list);
     item = getItemC(p, *list);
+
     if (p == NULLC) { // Centro electoral no creado en la lista
         printf("+ Error: New not possible\n");
     }
@@ -79,8 +82,8 @@ void newParty(tListC *list, tCenterName center, tPartyName party) {
     }
 }
 void voteParty(tListC *list, tCenterName center, tPartyName party) {
-    tPosC p;
-    tPosL r;
+    tPosC p; // Para encontrar la posición del centro
+    tPosL r; // Para encontrar la posición del partido
     tItemC mainItem; // Item para manejar los campos de la lista
     int Null = 0;
     int Valid = 0;
@@ -93,31 +96,27 @@ void voteParty(tListC *list, tCenterName center, tPartyName party) {
     }
     else {
         if (findItem(party, mainItem.partyList) == LNULL) { // El partido no se encuentra en la lista de centros electorales
-            if (mainItem.validVotes + mainItem.nullVotes < mainItem.totalVoters) {
-                Null = mainItem.nullVotes;
-                Null++;
-                updateNullVotes(Null, p, list);
-            }
+            Null = mainItem.nullVotes;
+            Null++;
+            updateNullVotes(Null, p, list); // Votos nulos actualizados del centro
             printf("+ Error: Vote not possible. Party %s not found in center %s. NULLVOTE\n", party, mainItem.centerName);
         }
         else { // El partido si se encuentra en la lista
             r = findItem(party, mainItem.partyList);
-            if (mainItem.validVotes + mainItem.nullVotes < mainItem.totalVoters) {
-                Valid = mainItem.validVotes;
-                Valid++;
-                updateValidVotesC(Valid, p, list);
-                PartyVotes = getItem(r, mainItem.partyList).numVotes;
-                PartyVotes++;
-                updateVotes(PartyVotes, r, &mainItem.partyList);
-            }
+            Valid = mainItem.validVotes;
+            Valid++;
+            updateValidVotesC(Valid, p, list); // Aumentamos los votos válidos del centro
+            PartyVotes = getItem(r, mainItem.partyList).numVotes;
+            PartyVotes++;
+            updateVotes(PartyVotes, r, &mainItem.partyList); // Aumentamos +1 los votos de los partidos
             printf("* Vote: center %s party %s numvotes %d\n", mainItem.centerName, party, getItem(r, mainItem.partyList).numVotes);
         }
     }
 }
 void print_list_Stats(tListC *list) {
-    tPosC pos;
+    tPosC pos; // Iterar la lista de centros
     tItemC item;
-    tPosL posL;
+    tPosL posL; // Iterar la lista de partidos dentro de la lista de centros
     tItemL itemL;
 
     if (!isEmptyListC(*list)) {
@@ -129,7 +128,7 @@ void print_list_Stats(tListC *list) {
                 posL = first(item.partyList);
                 while (posL != LNULL) {
                     itemL = getItem(posL, item.partyList);
-                    if (item.validVotes == 0) {
+                    if (item.validVotes == 0) { // Evitar la posibilidad de tener: x/0 = NaN
                         printf("Party %s numvotes %d (0.00%%)\n", itemL.partyName, itemL.numVotes);
                     }
                     else {
@@ -139,7 +138,7 @@ void print_list_Stats(tListC *list) {
                 }
             }
             printf("Null votes %d\n", item.nullVotes);
-            if (item.totalVoters == 0) {
+            if (item.totalVoters == 0) { // Control optativo, sólo sería útil si al crear el centro se le diese 0 a los totalVoters
                 printf("Participation: %d votes from %d voters (0.00%%)\n", item.validVotes + item.nullVotes, item.totalVoters);
             }
             else {
@@ -151,7 +150,7 @@ void print_list_Stats(tListC *list) {
 }
 void removeCenter(tListC *list) {
     int check = 0; // Variable que indica si hay centros para eliminar o no
-    tPosC pos;
+    tPosC pos; // Iterar en la lista de centros manejando posiciones
     tListC LCopia; // Lista de tipo tListC para hacer una copia
     createEmptyListC(&LCopia);
     tItemC permanent; // Variable donde guardaremos aquellos items que deben quedarse en la lista
@@ -193,35 +192,35 @@ void processCommand(char commandNumber[CODE_LENGTH+1], char command, char param1
 
 
     switch(command) {
-        case 'C': {
+        case 'C': { // Crear un centro electoral en la lista
             printf("********************\n");
             printf("%s %c: center %s totalvoters %s\n", commandNumber, command, param1, param2);
             printf("\n");
             createCenter(L, param1, param2);
             break;
         }
-        case 'N': {
+        case 'N': { // Crear partido en la lista de partidos del centro electoral
             printf("********************\n");
             printf("%s %c: center %s party %s\n", commandNumber, command, param1, param2);
             printf("\n");
             newParty(L, param1, param2);
             break;
         }
-        case 'V': {
+        case 'V': { // Votar a un partido
             printf("********************\n");
             printf("%s %c: center %s party %s\n", commandNumber, command, param1, param2);
             printf("\n");
             voteParty(L, param1, param2);
             break;
         }
-        case 'R': {
+        case 'R': { // Borrar de la lista aquellos centros con cero votos válidos
             printf("********************\n");
             printf("%s %c\n", commandNumber, command);
             printf("\n");
             removeCenter(L);
             break;
         }
-        case 'S': {
+        case 'S': { // Mostrar la lista principal así como sus estadísticas
             printf("********************\n");
             printf("%s %c\n", commandNumber, command);
             printf("\n");
@@ -230,7 +229,7 @@ void processCommand(char commandNumber[CODE_LENGTH+1], char command, char param1
         }
 
         default: {
-            printf("+ Fatal error: Command not found\n");
+            printf("FATAL ERROR: Command not found!\n");
             break;
         }
     }
@@ -262,7 +261,7 @@ void readTasks(char *filename, tListC *L) {
 }
 
 int main(int nargs, char **args) {
-
+    // Creación e inicialización de la lista principal de centros
     tListC L;
     createEmptyListC(&L);
 
@@ -276,7 +275,7 @@ int main(int nargs, char **args) {
         #endif
     }
 
-    readTasks(filename, &L);
+    readTasks(filename, &L); // Pasamos la lista como parámetro a través de las funciones
 
     return 0;
 }

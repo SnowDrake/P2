@@ -123,7 +123,7 @@ tPosL findMiddle(tPosL Inicio, tPosL Final) { // Función exclusiva para encontr
     izq = Inicio;
     der = Inicio->next;
 
-    while (der != Final) {
+    while (der != Final) { // Hasta que der != LNULL
         der = der->next;
         if (der != Final) {
             izq = izq->next;
@@ -144,13 +144,13 @@ tPosL findItem(tPartyName name, tList L) { // Vamos a usar la búsqueda binaria 
         if (strcmp(medio->data.partyName, name) == 0) { // Encontramos la posición
             return medio;
         }
-        else if (strcmp(medio->data.partyName, name) < 0) {
+        else if (strcmp(medio->data.partyName, name) < 0) { // El elemento se encuentra después del nodo medio
             inicio = medio->next;
         }
         else {
             final = medio;
         }
-    } while (final == LNULL || final != inicio);
+    } while (final == LNULL || final != inicio); // Saldremos del bucle bien si final deja de ser nulo, o bien si hemos acortado los dos cursores hasta la misma posición
     return LNULL; // Ya no pudimos encontrar la posición
 }
 bool isEmptyList(tList L) {

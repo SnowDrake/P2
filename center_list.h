@@ -17,8 +17,8 @@
 #define MAX 10 // Representa el número máximo de centros en la lista
 #define NULLC -1
 
-// Se va usar una implementación estática de manera ordenada
 
+// Declaración de los tipos usados
 
 typedef int tPosC;
 typedef struct {
@@ -33,6 +33,8 @@ typedef struct {
     tItemC data[MAX];
     tPosC lastPos;
 }tListC;
+
+// Declaración de los prototipos de las funciones, así como su especificación
 
 void createEmptyListC(tListC* L);
 /*

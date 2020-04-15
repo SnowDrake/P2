@@ -1,17 +1,14 @@
-01 C Alibi     10
-02 C Zaragoza  10
-03 N Alibi     CC
-04 N Alibi     DD
-05 V Alibi     CC
-06 V Alibi     CC
-07 V Alibi     CC
-08 V Alibi     CC
-09 V Alibi     CC
-10 V Alibi     CC
-11 V Alibi     CC
-12 V Alibi     CC
-13 V Alibi     CC
-14 V Alibi     ZZ
-15 V Alibi     HH
-16 R
-17 S
+01 C center2   10
+02 C center1   10
+03 N center1   CC
+04 N center1   AA
+05 N center1   DD
+06 N center2   DD
+07 N center2   CC
+08 S
+09 V center1   AA
+10 V center1   CC
+11 V center1   AA
+12 V center1   AA
+13 R
+14 S

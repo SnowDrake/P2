@@ -42,13 +42,6 @@ bool insertItemC(tItemC d,  tListC *L) {
     // * Inserción al principio
     // * Inserción en el medio
     // * Inserción al final de la lista
-    /*
-    if Return value < 0 then it indicates str1 is less than str2.
-
-    if Return value > 0 then it indicates str2 is less than str1.
-
-    if Return value = 0 then it indicates str1 is equal to str2.
-    */
     tPosC i;
 
     if (L->lastPos == MAX - 1) { // Lista completa
@@ -80,13 +73,6 @@ tItemC getItemC(tPosC p, tListC L) {
     return L.data[p];
 }
 tPosC findItemC(tCenterName name, tListC L) {
-    /*
-    if Return value < 0 then it indicates str1 is less than str2.
-
-    if Return value > 0 then it indicates str2 is less than str1.
-
-    if Return value = 0 then it indicates str1 is equal to str2.
-    */
     tPosC p;
     if (L.lastPos == NULLC) {
         return NULLC;

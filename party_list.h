@@ -18,6 +18,8 @@
 
 #define LNULL NULL
 
+// Declaración de los tipos usados
+
 typedef struct tNode *tPosL;
 struct tNode {
     tItemL data;
@@ -26,8 +28,7 @@ struct tNode {
 typedef tPosL tList;
 
 
-
-// Se usará una implementación dinámica con simple enlace de manera ordenada
+// Declaración de los prototipos de las funciones, así como su especificación
 
 void createEmptyList(tList* L);
 /*
