@@ -20,6 +20,12 @@ int devolverParam(char param[NAME_LENGTH_LIMIT+1]) {  // Función usada para con
     return x;
 }
 
+void freeList(tListC *L) {
+  while (!isEmptyListC(*L)) { // Borrado de la lista principal
+      deleteAtPositionC(firstC(*L), L);
+  }
+}
+
 void createCenter(tListC *list, tCenterName name, char param[NAME_LENGTH_LIMIT+1]) {
     // Declaración del nuevo ítem a añadir a la lista
     tItemC newCenter;
@@ -113,16 +119,16 @@ void voteParty(tListC *list, tCenterName center, tPartyName party) {
         }
     }
 }
-void print_list_Stats(tListC *list) {
+void print_list_Stats(tListC list) {
     tPosC pos; // Iterar la lista de centros
     tItemC item;
     tPosL posL; // Iterar la lista de partidos dentro de la lista de centros
     tItemL itemL;
 
-    if (!isEmptyListC(*list)) {
-        pos = firstC(*list);
+    if (!isEmptyListC(list)) {
+        pos = firstC(list);
         while (pos != NULLC) {
-            item = getItemC(pos, *list);
+            item = getItemC(pos, list);
             printf("Center %s\n", item.centerName);
             if (!isEmptyList(item.partyList)) {
                 posL = first(item.partyList);
@@ -138,14 +144,12 @@ void print_list_Stats(tListC *list) {
                 }
             }
             printf("Null votes %d\n", item.nullVotes);
-            if (item.totalVoters == 0) { // Control optativo, sólo sería útil si al crear el centro se le diese 0 a los totalVoters
-                printf("Participation: %d votes from %d voters (0.00%%)\n", item.validVotes + item.nullVotes, item.totalVoters);
-            }
-            else {
-                printf("Participation: %d votes from %d voters (%.2f%%)\n", item.validVotes + item.nullVotes, item.totalVoters, (((float)item.validVotes + item.nullVotes)/item.totalVoters)*100);
-            }
-            pos = nextC(pos, *list);
+            printf("Participation: %d votes from %d voters (%.2f%%)\n", item.validVotes + item.nullVotes, item.totalVoters, (((float)item.validVotes + item.nullVotes)/item.totalVoters)*100);
+            pos = nextC(pos, list);
         }
+    }
+    else {
+        printf("Empty list\n");
     }
 }
 void removeCenter(tListC *list) {
@@ -177,7 +181,7 @@ void removeCenter(tListC *list) {
                 strcpy(removed.partyName, getItemC(pos, LCopia).centerName);
                 removed.numVotes = 0;
                 printf("* Remove: center %s\n", removed.partyName);
-                check++;
+                check++; // Activamos el check, hay centros a eliminar
             }
             pos = nextC(pos, LCopia);
         }
@@ -185,7 +189,7 @@ void removeCenter(tListC *list) {
     if (check == 0) { // Ningún centro será eliminado
         printf("* Remove: no centers removed\n");
     }
-    deleteListC(&LCopia); // Por último eliminamos la lista copia de la principal
+    deleteListC(&LCopia); // Por último eliminamos la copia de la lista principal
 }
 
 void processCommand(char commandNumber[CODE_LENGTH+1], char command, char param1[NAME_LENGTH_LIMIT+1], char param2[NAME_LENGTH_LIMIT+1], tListC *L) {
@@ -220,11 +224,11 @@ void processCommand(char commandNumber[CODE_LENGTH+1], char command, char param1
             removeCenter(L);
             break;
         }
-        case 'S': { // Mostrar la lista principal así como sus estadísticas
+        case 'S': { // Mostrar la lista principal, así como sus estadísticas
             printf("********************\n");
             printf("%s %c\n", commandNumber, command);
             printf("\n");
-            print_list_Stats(L);
+            print_list_Stats(*L);
             break;
         }
 
@@ -276,6 +280,7 @@ int main(int nargs, char **args) {
     }
 
     readTasks(filename, &L); // Pasamos la lista como parámetro a través de las funciones
+    freeList(&L); // Liberamos de memoria la lista principal
 
     return 0;
 }
