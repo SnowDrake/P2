@@ -88,21 +88,8 @@ tPosC findItemC(tCenterName name, tListC L) {
         }
     }
 }
-bool copyListC(tListC L1, tListC* L2) {
-    tPosC p;
-    for (p = 0; p <= L1.lastPos ; ++p) {
-        L2->data[p] = L1.data[p];
-    }
-    L2->lastPos = L1.lastPos;
-    return true;
-}
 void updateListC(tList P, tPosC p, tListC* L) {
     L->data[p].partyList = P;
-}
-void deleteListC(tListC* L) {
-    while (L->lastPos != NULLC) {
-        L->lastPos = NULLC; // El array seguirá estando en memoria
-    }
 }
 void updateNullVotes(tNumVotes a, tPosC p, tListC* L) {
     L->data[p].nullVotes = a;

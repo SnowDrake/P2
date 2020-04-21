@@ -54,17 +54,6 @@ bool insertItemC(tItemC d, tListC* L);
  * Precondición: Que la lista haya sido inicializada
  * Postcondición: La posición de los elementos de la lista puede haberse modificado
 */
-bool copyListC(tListC L1, tListC* L2);
-/*
- * Objetivo: Copiar el contenido de una lista en otra
- * Entrada:
- *    tListC L1: Lista que vamos a copiar
- *    tListC L2*: Lista donde se hará la copia
- * Salida:
- *    tListC L2*: Copia de la lista L1
- *    Booleano que devuelva si se ha podido copiar la lista
- * Precondición: Ambas listas han de ser inicializadas. La lista L2* puede o no estar vacía.
-*/
 void updateListC(tList P, tPosC p, tListC* L);
 /*
  * Objetivo: Modifica la lista de partidos que se encuentra en la posición dada en la lista principal
@@ -106,13 +95,6 @@ void deleteAtPositionC(tPosC p, tListC* L);
  * Salida: La lista tras haber sido modificada
  * Precondición: tPosC p es una posición válida de la lista
  * Postcondición: Las posiciones de los elementos de la lista pueden haber variado
-*/
-void deleteListC(tListC* L);
-/*
- * Objetivo: Elimina todos los elementos de la lista
- * Entrada: tListC *L a ser borrada
- * Salida: La lista vacía
- * Precondición: Lista inicializada
 */
 tPosC findItemC(tCenterName name, tListC L);
 /*

@@ -155,12 +155,21 @@ void print_list_Stats(tListC list) {
 void removeCenter(tListC *list) {
     int check = 0; // Variable que indica si hay centros para eliminar o no
     tPosC pos; // Iterar en la lista de centros manejando posiciones
+    tPosL posL;
     tListC LCopia; // Lista de tipo tListC para hacer una copia
     createEmptyListC(&LCopia);
     tItemC permanent; // Variable donde guardaremos aquellos items que deben quedarse en la lista
+    createEmptyList(&permanent.partyList); // Iniciamos la lista de los partidos dentro de aquellos ítems que deba quedarse en la lista
     tItemL removed; // Variable donde almacenar los items que serán eliminados de la lista
 
-    copyListC(*list, &LCopia); // Hacemos una copia de la lista principal para manejar con ella
+    //copyListC(*list, &LCopia); // Hacemos una copia de la lista principal para manejar con ella
+    if (!isEmptyListC(*list)) { // Hacemos una copia de la lista principal para manejar con ella
+        pos = firstC(*list);
+        while (pos != NULLC) {
+            insertItemC(getItemC(pos, *list), &LCopia);
+            pos = nextC(pos, *list);
+        }
+    }
 
     while (!isEmptyListC(*list)) { // Borrado de la lista principal
         deleteAtPositionC(firstC(*list), list);
@@ -171,13 +180,17 @@ void removeCenter(tListC *list) {
         while (pos != NULLC) {
             if (getItemC(pos, LCopia).validVotes != 0) { // Los centros que han de quedarse en la lista *L
                 strcpy(permanent.centerName, getItemC(pos, LCopia).centerName);
-                copyList(getItemC(pos, LCopia).partyList, &permanent.partyList);
-                permanent.validVotes = getItemC(pos, LCopia).validVotes;
-                permanent.totalVoters = getItemC(pos, LCopia).totalVoters;
-                permanent.nullVotes = getItemC(pos, LCopia).nullVotes;
+                posL = first(getItemC(pos, LCopia).partyList);
+                while (posL != LNULL) { // Copiamos la lista de partidos de nuestra copia en la lista
+                    insertItem(getItem(posL, getItemC(pos, LCopia).partyList), &permanent.partyList);
+                    permanent.validVotes = getItemC(pos, LCopia).validVotes;
+                    permanent.totalVoters = getItemC(pos, LCopia).totalVoters;
+                    permanent.nullVotes = getItemC(pos, LCopia).nullVotes;
+                    posL = next(posL, getItemC(pos, LCopia).partyList);
+                }
                 insertItemC(permanent, list); // Copiamos esos centros en la lista principal
             }
-            else { // Los centros que serán eliminados más adelante
+            else { // Los centros que serán eliminados más adelante. Si un centro no tuviese partidos ya entraría en esta condición
                 strcpy(removed.partyName, getItemC(pos, LCopia).centerName);
                 removed.numVotes = 0;
                 printf("* Remove: center %s\n", removed.partyName);
@@ -189,7 +202,7 @@ void removeCenter(tListC *list) {
     if (check == 0) { // Ningún centro será eliminado
         printf("* Remove: no centers removed\n");
     }
-    deleteListC(&LCopia); // Por último eliminamos la copia de la lista principal
+    freeList(&LCopia); // Por último liberamos la copia de la lista principal
 }
 
 void processCommand(char commandNumber[CODE_LENGTH+1], char command, char param1[NAME_LENGTH_LIMIT+1], char param2[NAME_LENGTH_LIMIT+1], tListC *L) {

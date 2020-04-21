@@ -9,7 +9,6 @@
 
 #include "party_list.h"
 
-/* Write your code here... */
 
 bool createNode(tPosL * p) { // Función interna a este archivo, no aparace en el archivo de cabecera
     *p = malloc(sizeof(struct tNode));
@@ -55,32 +54,6 @@ bool insertItem(tItemL d, tList* L) {
         return true; // En cualquiera de los casos hemos logrado insertar exitosamente en la lista
     }
 }
-bool copyList(tList L1, tList* L2) { // No es imprescindible que L2 sea una lista vacía
-    tPosL p, q = NULL, r;
-    bool retorno = true;
-    createEmptyList(L2);
-    if (!isEmptyList(L1)) {
-        p = L1;
-        while ((p != LNULL) && createNode(&r)) {
-            r->data = p->data;
-            r->next = LNULL;
-            if (p == L1) { // cabeza de la lista
-                *L2 = r; // *L2 apunta a donde r
-                q = r;
-            }
-            else { // No en la cabeza de la lista
-                q->next = r; // Unimos nodo
-                q = r;
-            }
-            p = p->next;
-        }
-        if (p != LNULL) {
-            retorno = false;
-            deleteList(L2); // Fallamos en la creación de la lista, borramos
-        }
-    }
-    return retorno;
-}
 void updateVotes(tNumVotes a, tPosL p, tList* L) {
     p->data.numVotes = a;
 }
@@ -105,14 +78,6 @@ void deleteAtPosition(tPosL p, tList* L) {
         p = q; // Luego liberamos
     }
     free(p); // Hacemos ya el free de la lista de la posición de p
-}
-void deleteList(tList* L) {
-    tPosL p;
-    while (*L != LNULL) {
-        p = *L;
-        *L = (*L)->next;
-        free(p); // Liberamos p para cada una de las posiciones de la lista
-    }
 }
 tPosL findMiddle(tPosL Inicio, tPosL Final) { // Función exclusiva para encontrar la mitad de la lista
     tPosL izq;

@@ -3,8 +3,8 @@
 03 N center1   CC
 04 N center1   AA
 05 N center1   DD
-06 N center2   DD
-07 N center2   CC
+06 V center1   DD
+07 C center3   10
 08 S
 09 V center1   AA
 10 V center1   CC
