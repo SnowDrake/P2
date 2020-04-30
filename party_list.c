@@ -14,7 +14,7 @@ bool createNode(tPosL * p) { // Función interna a este archivo, no aparace en e
     *p = malloc(sizeof(struct tNode));
     return (*p == LNULL?false:true);
 } // Nos permitirá crear los nodos para la lista
-tPosL findPosition(tItemL d, tList L) { // Función auxiiar que permitirá facilitar el código de inserción
+tPosL findPosition(tItemL d, tList L) { // Función auxiliar que permitirá facilitar el código de inserción
     tPosL p;
     p = L;
     while ((p->next != LNULL) && (strcmp(p->next->data.partyName, d.partyName) < 0)) { // Devoverá la posición anterior a la del valor deseado de insertar

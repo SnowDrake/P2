@@ -1,14 +1,17 @@
 01 C center2   10
-02 C center1   10
-03 N center1   CC
+02 R
+03 C center1   10
 04 N center1   AA
 05 N center1   DD
-06 V center1   DD
+06 N center2   DD
 07 C center3   10
 08 S
-09 V center1   AA
-10 V center1   CC
-11 V center1   AA
-12 V center1   AA
+09 V center2   AA
+10 V center2   CC
+11 V center2   AA
+12 V center2   DD
 13 R
 14 S
+15 C center5   10
+16 S
+17 N center3   AA

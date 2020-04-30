@@ -59,7 +59,7 @@ bool insertItemC(tItemC d,  tListC *L) {
             }
             L->data[i] = d;
         }
-        return true; // La inserción ha sido satisfactoria
+        return true; // La inserción ha sido satisfactoria en cualquiera de los dos casos
     }
 }
 void deleteAtPositionC(tPosC p, tListC *L) {
