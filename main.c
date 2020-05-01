@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include "types.h"
 #include "center_list.h"
+#include <stdbool.h>
 
 #define CODE_LENGTH 2
 
@@ -168,6 +169,7 @@ void print_list_Stats(tListC list) {
 void removeCenter(tListC *list) {
     int check = 0; // Variable que indica si hay centros para eliminar o no
     tPosC pos; // Iterar en la lista de centros manejando posiciones
+    bool act = false; // Control de borrado
 
     if (!isEmptyListC(*list)) { // Recorremos la lista principal
         pos = firstC(*list);
@@ -175,16 +177,22 @@ void removeCenter(tListC *list) {
             if (getItemC(pos, *list).validVotes == 0) { // Borrado de aquellos centros cuyos votos válidos sean 0
                 printf("* Remove: center %s\n", getItemC(pos, *list).centerName);
                 freePartyList(list, pos); // Borrado de la lista de partidos de los centros antes del borrado del centro
-                deleteAtPositionC(pos, list); // Borrado final total del centro
-                if (!isEmptyListC(*list)) { // Siempre y cuando temgamos una lista no vacía resetearemos la posición
-                    pos = firstC(*list); // Al darse el caso de que se muevan las posiciones de la lista reiniciamos la posición al comienzo de la lista
+                deleteAtPositionC(pos, list); // Borrado final total del centro (habrá que tener cuidado con el desplazamiento de los elementos)
+                if (!isEmptyListC(*list)) { // Lista no vacía tras el borrado
+                    act = true; // Activamos el control de borrado
                 }
-                else { // En el otro caso marcamos pos como el fin de la lista
+                else { // Lista completamente vacía tras el borrado
                     pos = NULLC;
                 }
                 check++; // Activamos el check, hay centros a eliminar
             }
-            pos = nextC(pos, *list); // Proseguimos iterando en la lista
+            if (act == false) { // Iteración donde no se ha encontrado ningún borrado de centro
+                pos = nextC(pos, *list); // Avanzamos en la lista con toda normalidad
+            }
+            if (act == true) { // Detectamos un borrado
+                pos = firstC(*list); // Volvemos al principio de la lista
+            }
+            act = false; // Reiniciamos el control de borrado para la siguiente iteración
         }
     }
     if (check == 0) { // Ningún centro será eliminado
