@@ -31,7 +31,7 @@ void freePartyList(tListC *L, tPosC p) { // Función para el borrado de la lista
     updateListC(item.partyList, p, L);
 }
 
-void freeListC(tListC *L) { // Borrado completo de la lista principal
+void freeListC(tListC *L) { // Borrado completo de la lista principal incluyendo la de los partidos de los centros
     tItemC item;
     createEmptyList(&item.partyList);
     while (!isEmptyListC(*L)) {
@@ -80,12 +80,12 @@ void newParty(tListC *list, tCenterName center, tPartyName party) {
 
     tPosC p; // Posición del centro en la lista
     p = findItemC(center, *list);
-    item = getItemC(p, *list);
 
     if (p == NULLC) { // Centro electoral no creado en la lista
         printf("+ Error: New not possible\n");
     }
     else { // El centro si está en la lista
+        item = getItemC(p, *list);
         if (findItem(party, item.partyList) == LNULL) { // El partido no está en la lista del centro electoral
             check = insertItem(Party, &item.partyList); // Comprobamos si la inserción ha sido satisfactoria
             updateListC(item.partyList, p, list); // Modificamos la lista principal añadiendo la lista de partidos del item
@@ -109,12 +109,12 @@ void voteParty(tListC *list, tCenterName center, tPartyName party) {
     int Valid = 0;
     int PartyVotes = 0;
     p = findItemC(center, *list);
-    mainItem = getItemC(p, *list);
 
     if (p == NULLC) {
         printf("+ Error: Vote not possible\n"); // El centro no se encuentra en la lista
     }
     else {
+        mainItem = getItemC(p, *list);
         if (findItem(party, mainItem.partyList) == LNULL) { // El partido no se encuentra en la lista de centros electorales
             Null = mainItem.nullVotes;
             Null++;
@@ -122,7 +122,7 @@ void voteParty(tListC *list, tCenterName center, tPartyName party) {
             printf("+ Error: Vote not possible. Party %s not found in center %s. NULLVOTE\n", party, mainItem.centerName);
         }
         else { // El partido si se encuentra en la lista
-            r = findItem(party, mainItem.partyList);
+            r = findItem(party, mainItem.partyList); // Posición del partido
             Valid = mainItem.validVotes;
             Valid++;
             updateValidVotesC(Valid, p, list); // Aumentamos los votos válidos del centro
@@ -186,11 +186,13 @@ void removeCenter(tListC *list) {
                 }
                 check++; // Activamos el check, hay centros a eliminar
             }
-            if (act == false) { // Iteración donde no se ha encontrado ningún borrado de centro
-                pos = nextC(pos, *list); // Avanzamos en la lista con toda normalidad
-            }
-            if (act == true) { // Detectamos un borrado
-                pos = firstC(*list); // Volvemos al principio de la lista
+            if (pos != NULLC) { // Comprobamos posible lista vacía tras un posible borrado
+                if (act == false) { // Iteración donde no se ha encontrado ningún borrado de centro
+                    pos = nextC(pos, *list); // Avanzamos en la lista con toda normalidad
+                }
+                if (act == true) { // Detectamos un borrado
+                    pos = firstC(*list); // Volvemos al principio de la lista
+                }
             }
             act = false; // Reiniciamos el control de borrado para la siguiente iteración
         }
